@@ -1,3 +1,6 @@
+import re
+
+
 def get_annotated_points(path, annotated_file_name):
     """
     get_annotated_points(file path in computer, name of annotated file).\n
@@ -11,29 +14,31 @@ def get_annotated_points(path, annotated_file_name):
 
     # varaible to store points of annotations
     points_array = []
+    images_name_array = []
     annotated_points = {}
 
     for line in file:
         content = line.split(':')
         image_name = content[0]
         # image_file = path + image_name
-        points_array.clear()
+        images_name_array.append(image_name)
+        points_array = []
 
         # when there is no sign in the image
-        if content[1] == "\n":
-            continue
-        else:
+        if content[1] != "\n":
             signs_info_list = content[1].split(';')
             for signs_info in signs_info_list:
                 if signs_info == "MISC_SIGNS" or signs_info == "\n":
                     continue
                 else:
-                    splited_sign_info = signs_info.split(', ')
-                    points = [splited_sign_info[1], splited_sign_info[2],
+                    splited_sign_info = re.split(',\s*', signs_info)
+                    points = [(splited_sign_info[1]), splited_sign_info[2],
                               splited_sign_info[3], splited_sign_info[4]]
+                    points = list(map(float, points))
+                    points = list(map(int, points))
 
                 points_array.append(points)
 
         annotated_points[image_name] = points_array
 
-    return annotated_points
+    return images_name_array, annotated_points
