@@ -28,14 +28,18 @@ def getAnnotatedPoints(path, annotated_file_name):
         if content[1] != "\n":
             signs_info_list = content[1].split(';')
             for signs_info in signs_info_list:
-                if signs_info == "MISC_SIGNS" or signs_info == "\n":
+                if signs_info == "MISC_SIGNS" or signs_info == "\n" or signs_info == " \n":
                     continue
                 else:
                     splited_sign_info = re.split(',\s*', signs_info)
                     points = [(splited_sign_info[1]), splited_sign_info[2],
                               splited_sign_info[3], splited_sign_info[4]]
-                    points = list(map(float, points))
-                    points = list(map(int, points))
+                    try:
+                        points = list(map(float, points))
+                        points = list(map(int, points))
+                    except ValueError:
+                        for i in range(0, 4):
+                            points[i] = int(points[i].split('.')[0])
 
                 points_array.append(points)
 
