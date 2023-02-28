@@ -1,9 +1,9 @@
 import re
 
 
-def get_annotated_points(path, annotated_file_name):
+def getAnnotatedPoints(path, annotated_file_name):
     """
-    get_annotated_points(file path in computer, name of annotated file).\n
+    getAnnotatedPoints(file path in computer, name of annotated file).\n
     This function returns annotated points.
     """
 
